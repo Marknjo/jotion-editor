@@ -9,20 +9,30 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react';
 
 type Props = {
+  redirectTo?: string;
   children: ReactNode;
   onConfirm: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-export const ConfirmModal = ({ children, onConfirm }: Props) => {
+export const ConfirmModal = ({ children, onConfirm, redirectTo }: Props) => {
+  const router = useRouter();
+
   const handleConfirm = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
+
     onConfirm(event);
+
+    if (redirectTo) {
+      router.push(redirectTo);
+    }
   };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger onClick={(e) => e.stopPropagation()} asChild>
